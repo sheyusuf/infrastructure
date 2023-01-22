@@ -1,8 +1,8 @@
 ---
 # Exercise for setting up a web server in an EC
-- name: Exercise for setting up a web server in an EC   
+- name: Remote control using ansible  
   # Use the public IP if the VM is already created
-  hosts: all
+  hosts: 34.201.65.28
   # For Ubuntu instances, the user will be `ubuntu`
   # For Amazon LInux 2 instance, the user will be `ec2-user`
   user: ubuntu
