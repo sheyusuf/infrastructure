@@ -32,9 +32,7 @@ jobs:
           command: |
             apk add --update ansible
       - run:
-          command: |
-            ssh-keyscan -H ssh.pythonanywhere.com >> ~/.ssh/known_hosts 
-            ssh $pythonAnywhereUser@ssh.pythonanywhere.com
+          command: ssh $pythonAnywhereUser@ssh.pythonanywhere.com
       - run:
           name: Run Playbook and Configure server
           command: |
