@@ -26,13 +26,11 @@ jobs:
       - checkout
       - add_ssh_keys:
               # You can get this ID in the section where you registered the SSH Key
-              fingerprints: ["e3:0e:7a:e7:c9:d4:82:b1:5f:2b:0d:7e:21:9b:1a:df"] 
+              fingerprints: ["f3:2b:19:7a:31:c4:52:2f:da:30:a6:94:03:27:57:1e"] 
       - run:
           name: Install Ansible
           command: |
             apk add --update ansible
-      - run:
-          command: ssh $pythonAnywhereUser@ssh.pythonanywhere.com
       - run:
           name: Run Playbook and Configure server
           command: |
