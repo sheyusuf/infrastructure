@@ -30,8 +30,7 @@ jobs:
       - run:
           name: Install Ansible
           command: |
-            python3 -m pip uninstall ansible
-            python3 -m pip uninstall ansible-core
+            pip3 install ansible
       - run:
           name: Run Playbook and Configure server
           command: |
