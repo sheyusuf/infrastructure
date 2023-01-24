@@ -7,7 +7,7 @@ orbs:
 # Define the jobs we want to run for this project
 jobs:
   create_infrastructure: 
-     docker:
+      docker:
         - image: amazon/aws-cli
       steps:
         - checkout
