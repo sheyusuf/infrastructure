@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Install Ansible
           command: |
-            python -m pip install ansible
+            apt-get install ansible
       - run:
           name: Run Playbook and Configure server
           command: |
