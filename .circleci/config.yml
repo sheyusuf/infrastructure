@@ -36,7 +36,6 @@ jobs:
           command: |
             ansible-playbook -i inventory main-remote.yml
 
-
 # Sequential workflow
 workflows:
   # Name the workflow
