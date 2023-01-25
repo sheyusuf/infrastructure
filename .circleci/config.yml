@@ -100,7 +100,6 @@ workflows:
 #      - create_infrastructure
 #      - configure_infrastructure
 #      - smoke_test
-      - destroy_environment
       - create_infrastructure
       - smoke_test
 
