@@ -70,7 +70,7 @@ jobs:
   # Exercise: Smoke Testing
   smoke_test:
     docker:
-      - image: aws-cli:latest
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
