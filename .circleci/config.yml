@@ -86,7 +86,6 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - checkout
       - run:
           name: Test job
           # Fail the job intentionally to simulate an error.
