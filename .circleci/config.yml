@@ -19,40 +19,40 @@ jobs:
 #                --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
 #                --region us-east-1
 
-  configure_infrastructure: 
-    docker:
-      - image: cimg/python:3.10
-    steps:
-      - checkout
-      - add_ssh_keys:
-              # You can get this ID in the section where you registered the SSH Key
-              fingerprints: ["2d:35:13:a4:75:63:af:40:a9:6e:5d:99:41:4c:c6:db"]
-      - run:
-          name: Install Ansible
-          command: |
-            pip3 install ansible
-      - run:
-          name: Run Playbook and Configure server
-          command: |
-            ansible-playbook -i inventory main-remote.yml
+#  configure_infrastructure: 
+#    docker:
+#      - image: cimg/python:3.10
+#    steps:
+#      - checkout
+#      - add_ssh_keys:
+#              # You can get this ID in the section where you registered the SSH Key
+#              fingerprints: ["2d:35:13:a4:75:63:af:40:a9:6e:5d:99:41:4c:c6:db"]
+#      - run:
+#          name: Install Ansible
+#          command: |
+#            pip3 install ansible
+#      - run:
+#          name: Run Playbook and Configure server
+#          command: |
+#            ansible-playbook -i inventory main-remote.yml
 
   # Exercise: Smoke Testing
-#  smoke_test:
-#    docker:
-#      - image: alpine:latest
-#    steps:
-#      - run: apk add --update curl
-#      - run:
-#          name: smoke test
-#          command: |
-#            URL="https://blog.udacity.com/"
-#            # Test if website exists
-#            if curl -s --head ${URL} 
-#            then
-#              return 0
-#            else
-#              return 1
-#            fi
+  smoke_test:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: smoke test
+          command: |
+            URL="https://blog.udacity.com/"
+            # Test if website exists
+            if curl -s --head ${URL} 
+            then
+              return 0
+            else
+              return 1
+            fi
 
 #commands:
 #  # Exercise - Rollback
@@ -99,8 +99,8 @@ workflows:
   myWorkflow:
     jobs:
 #      - create_infrastructure
-      - configure_infrastructure
-#      - smoke_test
+#      - configure_infrastructure
+      - smoke_test
 #      - create_infrastructure
 #      - smoke_test
 
