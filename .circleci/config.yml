@@ -67,18 +67,6 @@ commands:
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
 
 jobs:
-  # Exercise: Smoke Testing
-  smoke_test:
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Test job
-          # Fail the job intentionally to simulate an error.
-          command:  return 1
-      - destroy_environment 
-
   # Exercise - Rollback
   create_infrastructure: 
     docker:
@@ -92,7 +80,19 @@ jobs:
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
               --region us-east-1
-       
+
+  # Exercise: Smoke Testing
+  smoke_test:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Test job
+          # Fail the job intentionally to simulate an error.
+          command:  return 1
+      - destroy_environment
+
 # Sequential workflow
 workflows:
   # Name the workflow
