@@ -92,6 +92,33 @@ jobs:
 #          command:  return 1
 #      - destroy_environment
 
+  create_bucket:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: create bucket for stack
+          command:
+            aws cloudformation deploy \
+              --template-file bucket.yml \
+              --stack-name "${CIRCLE_WORKFLOW_ID}" \
+              --parameter-overrides NAME="${CIRCLE_WORKFLOW_ID}"
+      - run: aws s3 sync . s3://"${CIRCLE_WORKFLOW_ID}" --delete
+
+  create_cloudfront:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+        name: create cloudfront for stack
+        command:
+          aws cloudformation deploy \
+            --template-file cloudfront.yml \
+            --stack-name cloudfront \
+            --parameter-overrides PipelineID="${CIRCLE_WORKFLOW_ID}"
+
   lift_infra:
     docker:
       - image: amazon/aws-cli
@@ -114,6 +141,8 @@ workflows:
 #      - smoke_test
 #      - create_infrastructure
 #      - smoke_test
+      - create_bucket
+      - create_cloudfront
       - lift_infra:
         filters:
           branches:
