@@ -101,8 +101,8 @@ jobs:
           name: Spin up backend
           command:
             aws cloudformation deploy \
-              --template-file create_backend.yml \
-              --stack-name backend-end-${CIRCLE_WORKFLOW_ID:0:5}
+              --template-file backend.yml \
+              --stack-name backend-${CIRCLE_WORKFLOW_ID:0:5}
 
 # Sequential workflow
 workflows:
