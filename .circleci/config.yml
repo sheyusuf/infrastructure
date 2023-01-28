@@ -54,43 +54,55 @@ orbs:
 #              return 1
 #            fi
 
-commands:
+#commands:
   # Exercise - Rollback
-  destroy_environment:
-    steps:
-      - run:
-          name: Destroy environment
+#  destroy_environment:
+#    steps:
+#      - run:
+#          name: Destroy environment
           # ${CIRCLE_WORKFLOW_ID} is a Built-in environment variable 
           # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID
-          when: on_fail
-          command: |
-            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
+#          when: on_fail
+#          command: |
+#            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
 
 jobs:
   # Exercise - Rollback
-  create_infrastructure: 
+#  create_infrastructure: 
+#    docker:
+#      - image: amazon/aws-cli
+#    steps:
+#      - checkout
+#      - run:
+#          name: Create Cloudformation Stack
+#          command: |
+#            aws cloudformation deploy \
+#              --template-file template.yml \
+#              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
+#              --region us-east-1
+
+  # Exercise: Smoke Testing
+#  smoke_test:
+#    docker:
+#      - image: amazon/aws-cli
+#    steps:
+#      - run:
+#          name: Test job
+#          # Fail the job intentionally to simulate an error.
+#          command:  return 1
+#      - destroy_environment
+
+  lift_infra:
     docker:
       - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: Create Cloudformation Stack
-          command: |
+          name: Spin up backend
+          command:
             aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7} \
-              --region us-east-1
-
-  # Exercise: Smoke Testing
-  smoke_test:
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - run:
-          name: Test job
-          # Fail the job intentionally to simulate an error.
-          command:  return 1
-      - destroy_environment
+              --template-file create_backend.yml \
+              --stack-name backend-end-${CIRCLE_WORKFLOW_ID}
 
 # Sequential workflow
 workflows:
@@ -100,6 +112,11 @@ workflows:
 #      - create_infrastructure
 #      - configure_infrastructure
 #      - smoke_test
-      - create_infrastructure
-      - smoke_test
+#      - create_infrastructure
+#      - smoke_test
+      - lift_infra:
+        filters:
+          branches:
+            only:
+              - master
 
